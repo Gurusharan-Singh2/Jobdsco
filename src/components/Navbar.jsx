@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Sheet,
   SheetClose,
@@ -14,13 +14,29 @@ import { Button } from './ui/button'
 import { FaGripLines } from "react-icons/fa";
 import Link from 'next/link';
 import { UserButton, useUser } from '@clerk/nextjs';
+import { GetProfileAction } from '@/actions';
 
-import { useAuth } from '@clerk/nextjs';
 
 
 const Navbar = () => {
   const user=useUser();
-  console.log(user);
+  const [X,setX]=useState(null);
+  useEffect(()=>{
+    if(!user?.user?.id) return;
+    const fetch=async()=>{
+      const res=await GetProfileAction(user?.user?.id);
+      if(res?.data?.userId){
+        setX(res.data);
+      }
+
+    }
+    fetch()
+   
+
+  },[user?.user?.id])
+
+   
+ 
   
   const pathItem=[
     {
@@ -39,14 +55,19 @@ const Navbar = () => {
       show:!user.isSignedIn
     },
     {
+      title:"Jobs",
+      path:"/jobs",
+      show:user.isSignedIn
+    },
+    {
       title:"Activity",
       path:"/activity",
-      show:user.isSignedIn
+      show:X?.role==="candidate"
     },
     {
       title:"Membership",
       path:"/membership",
-      show:user.isSignedIn
+      show:X?.role==="recruiter"
     },
     {
       title:"Account",
@@ -90,7 +111,7 @@ const Navbar = () => {
     <nav className='w-full hidden lg:flex justify-between mt-4 px-5'>
       <div className='flex  items-center '>
 
-      <Link href={'/'}><h1>JOBSCO</h1></Link>
+      <Link href={'/'}><h1 className='text-xl md:text-3xl lg:text-5xl pb-5 font-extrabold text-slate-900'>JOBSCO</h1></Link>
       </div>
       
       <div className='flex gap-10 items-center  list-none'>
@@ -111,6 +132,7 @@ const Navbar = () => {
 
     </div>
   )
+
 }
 
 export default Navbar

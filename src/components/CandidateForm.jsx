@@ -2,7 +2,9 @@ import React from 'react'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 
-const CandidateForm = ({CandidateData,setCandidateData}) => {
+const CandidateForm = ({CandidateData,setCandidateData,setFile}) => {
+  
+  
   return (
     <>
   <div className="mt-3 flex gap-2 border-b"> 
@@ -11,7 +13,7 @@ const CandidateForm = ({CandidateData,setCandidateData}) => {
       type="file"
       className="px-5 py-6 text-xl border-none border-gray-500 focus:border-black focus:outline-none"
       name="resume"
-      onChange={(e) => setCandidateData({ ...CandidateData, resume: e.target.files[0] })}
+      onChange={(e) => setFile( e.target.files[0] )}
       required
     />
   </div>
@@ -143,7 +145,7 @@ const CandidateForm = ({CandidateData,setCandidateData}) => {
       type="date"
       className="px-5 py-6 text-xl placeholder:text-xl border-none border-gray-500 focus:border-black focus:outline-none"
       onChange={(e) => setCandidateData({ ...CandidateData, CGraduatedYear: e.target.value })}
-      value={CandidateData.CGraduatedYear}
+      
       required
     />
   </div>
@@ -164,8 +166,8 @@ const CandidateForm = ({CandidateData,setCandidateData}) => {
       placeholder="Enter your GitHub profile"
       type="text"
       className="px-5 py-6 text-xl placeholder:text-xl border-none border-gray-500 focus:border-black focus:outline-none"
-      onChange={(e) => setCandidateData({ ...CandidateData, CGithubProfile: e.target.value })}
-      value={CandidateData.CGithubProfile}
+      onChange={(e) => setCandidateData({ ...CandidateData, CGithbProfile: e.target.value })}
+      value={CandidateData.CGithbProfile}
       required
     />
   </div>
