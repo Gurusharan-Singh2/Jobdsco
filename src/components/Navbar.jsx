@@ -21,6 +21,7 @@ import { GetProfileAction } from '@/actions';
 const Navbar = () => {
   const user=useUser();
   const [X,setX]=useState(null);
+  const [SheetOpen,setSheetOpen]=useState(false);
   useEffect(()=>{
     if(!user?.user?.id) return;
     const fetch=async()=>{
@@ -77,10 +78,17 @@ const Navbar = () => {
   ]
   return (
     <div className='w-full my-4'>
-      <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline"  className='text-2xl m-2  flex lg:hidden'><FaGripLines className='text-5xl' /></Button>
-      </SheetTrigger>
+      <Sheet open={SheetOpen} onOpenChange={setSheetOpen}>
+      
+      <Button 
+  variant="outline" 
+  className='text-2xl m-2 flex lg:hidden' 
+  onClick={() => setSheetOpen(true)}
+>
+  <FaGripLines className='text-5xl' />
+</Button>
+
+      
       <SheetContent side='left'>
       <SheetTitle aria-hidden="true" className="sr-only">
             Navigation Menu
@@ -90,7 +98,7 @@ const Navbar = () => {
                 {pathItem
                   .filter((item) => item.show) // ✅ Filter items before mapping
                   .map((item, i) => (
-                    <li key={i} className="my-10 text-xl text-gray-700">
+                    <li key={i} onClick={()=>setSheetOpen(false)} className="my-10 text-xl text-gray-700">
                       <Link href={item.path}>{item.title}</Link>
                     </li>
                   ))}

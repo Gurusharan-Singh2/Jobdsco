@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import ConnectDb from "@/database";
 import Profile from "@/models/profile";
 import Job from "@/models/jobs";
+import Application from "@/models/application";
 
 
 
@@ -129,3 +130,44 @@ export async function FetchJobForCandidateAction() {
     };
   }
 }
+
+
+
+// create job application
+
+export async function createJobApplicatiob(formdata,pathrevalidate) {
+await ConnectDb();
+await Application.create(formdata);
+revalidatePath(pathrevalidate);  
+}
+
+
+// fetch job application-candidate
+export async function FetchApplicationCandidate(candidateId) {
+  await ConnectDb();
+  const res=await Application.find({candidateUserId:candidateId})
+  return JSON.parse(JSON.stringify(res)) 
+  }
+
+
+// fetch job application-recruiter
+
+export async function FetchApplicationRecruiter(recruiterId) {
+  await ConnectDb();
+  const res=await Application.find({recruiterId:recruiterId})
+  return JSON.parse(JSON.stringify(res)) 
+  }
+
+// update job application
+export async function UpdateApplication(data, status, pathToRevalidate) {
+  await ConnectDb();
+
+   await Application.updateOne(
+    { candidateUserId: data.candidateUserId },
+    { status: status }
+  );
+
+  revalidatePath(pathToRevalidate);
+}
+
+// 

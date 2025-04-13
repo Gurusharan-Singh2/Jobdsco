@@ -24,7 +24,7 @@ const Onboard = () => {
   });
 
   const [CandidateData, setCandidateData] = useState({
-    resume: "", // ✅ Added missing resume field
+    resume: "",
     CName: "",
     CCurrentCompany: "",
     CCurrentJobLocation: "",
@@ -44,7 +44,7 @@ const Onboard = () => {
   const [File, setFile] = useState(null);
 
   const { user } = useUser();
-  console.log(user);
+ 
   
 
   // ✅ Waits for the file to upload before submitting
@@ -53,7 +53,7 @@ const Onboard = () => {
     
     try {
       const { data, error } = await supabase.storage
-        .from("jb")
+        .from("jbp")
         .upload(`/public/resume/${File.name}`, File, { cacheControl: "3600", upsert: true });
 
       if (error) {
